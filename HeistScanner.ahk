@@ -25,8 +25,8 @@ FileLoader("HeistScanner\bin\leptonica_util\leptonica_util.exe", "https://raw.gi
 FileLoader("HeistScanner\bin\leptonica_util\liblept168.dll", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/leptonica_util/liblept168.dll")
 FileLoader("HeistScanner\bin\leptonica_util\Microsoft.VC90.CRT.manifest", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/leptonica_util/Microsoft.VC90.CRT.manifest")
 FileLoader("HeistScanner\bin\tesseract\tesseract.exe", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/tesseract/tesseract.exe")
-FileLoader("HeistScanner\bin\tesseract\tessdata_best\eng.traineddata", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/tesseract/tessdata_best/eng.traineddata")
-FileLoader("HeistScanner\bin\tesseract\tessdata_fast\eng.traineddata", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/tesseract/tessdata_fast/eng.traineddata")
+;FileLoader("HeistScanner\bin\tesseract\tessdata_best\eng.traineddata", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/tesseract/tessdata_best/eng.traineddata")
+;FileLoader("HeistScanner\bin\tesseract\tessdata_fast\eng.traineddata", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/tesseract/tessdata_fast/eng.traineddata")
 FileLoader("HeistScanner\lib\Gdip_All.ahk", "https://raw.githubusercontent.com/iseahound/Vis2/master/lib/Gdip_All.ahk")
 FileLoader("HeistScanner\lib\ImagePut.ahk", "https://raw.githubusercontent.com/iseahound/Vis2/master/lib/ImagePut.ahk")
 FileLoader("HeistScanner\lib\JSON.ahk", "https://raw.githubusercontent.com/iseahound/Vis2/master/lib/JSON.ahk")
@@ -35,7 +35,7 @@ FileLoader("HeistScanner\lib\Vis2.ahk", "https://raw.githubusercontent.com/iseah
 FileLoader("HeistScanner\bin\tesseract\tessdata_fast\rus.traineddata", "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/rus.traineddata")
 FileLoader("HeistScanner\bin\tesseract\tessdata_best\rus.traineddata", "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/main/rus.traineddata")
 
-FileLoader("HeistScanner\resources\ahk\ItemDataConverterLib.ahk", "https://raw.githubusercontent.com/MegaEzik/LeagueOverlay_ru/master/resources/ahk/ItemDataConverterLib.ahk")
+;FileLoader("HeistScanner\resources\ahk\ItemDataConverterLib.ahk", "https://raw.githubusercontent.com/MegaEzik/LeagueOverlay_ru/master/resources/ahk/ItemDataConverterLib.ahk")
 
 Run *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\HeistScanner.ahk"
 
