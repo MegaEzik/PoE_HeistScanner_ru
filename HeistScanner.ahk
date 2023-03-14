@@ -19,8 +19,6 @@ If !FileExist("settings.ini") {
 	IniWrite, %A_Space%, settings.ini, settings, league
 }
 
-FileCreateDir, HeistScanner\resources\data
-
 FileLoader("HeistScanner\bin\leptonica_util\leptonica_util.exe", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/leptonica_util/leptonica_util.exe")
 FileLoader("HeistScanner\bin\leptonica_util\liblept168.dll", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/leptonica_util/liblept168.dll")
 FileLoader("HeistScanner\bin\leptonica_util\Microsoft.VC90.CRT.manifest", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/leptonica_util/Microsoft.VC90.CRT.manifest")

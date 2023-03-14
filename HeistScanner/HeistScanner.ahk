@@ -8,7 +8,6 @@ If !A_IsAdmin {
 }
 
 #include <Vis2>
-;#Include, %A_ScriptDir%\resources\ahk\ItemDataConverterLib.ahk
 
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
 GroupAdd, WindowGrp, ahk_exe GeForceNOWStreamer.exe
@@ -20,19 +19,7 @@ IniRead, hotkeyHeistScanner, %configFile%, hotkeys, hotkeyHeistScanner, %A_Space
 If (hotkeyHeistScanner!="")
 	Hotkey, % hotkeyHeistScanner, useHeistScan, On
 
-Menu, Tray, Tip, %prjName% (%league%)
-
-uxtheme:=DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
-SetPreferredAppMode:=DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")
-FlushMenuThemes:=DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 136, "ptr")
-DllCall(SetPreferredAppMode, "int", 1)
-DllCall(FlushMenuThemes)
-
-Menu, Tray, NoStandard
-Menu, Tray, Add, League, leagues
-Menu, Tray, Default, League
-Menu, Tray, Add
-Menu, Tray, Standard
+Menu, Tray, Tip, %prjName%
 
 Return
 
@@ -60,53 +47,4 @@ useHeistScan(){
 	url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22filters%22:{},%22type%22:%22" Name "%22}}"
 	run, "%url%"
 	return
-}
-
-LeaguesList(){
-	RunWait curl -L -o "leagues.json" "http://api.pathofexile.com/leagues?type=main"
-	
-	FileRead, html, leagues.json
-	html:=StrReplace(html, "},{", "},`n{")
-	
-	leagues_list:=""
-	
-	htmlSplit:=StrSplit(html, "`n")
-	For k, val in htmlSplit {
-		If !RegExMatch(htmlSplit[k], "SSF") && RegExMatch(htmlSplit[k], "id"":""(.*)"",""realm", res)
-			leagues_list.="|" res1
-	}
-	
-	leagues_list:=subStr(leagues_list, 2)
-	
-	return leagues_list
-}
-
-leagues(){
-	Menu, LeaguesMenu, Add
-	Menu, LeaguesMenu, DeleteAll
-	LeaguesListSplit:=strSplit(LeaguesList(), "|")
-	For k, val in LeaguesListSplit {
-		LeagueName:=LeaguesListSplit[k]
-		Menu, LeaguesMenu, Add, %LeagueName%, setLeague
-	}
-	Menu, LeaguesMenu, Show
-}
-
-setLeague(Name){
-	IniWrite, %Name%, %configFile%, settings, league
-	Reload
-}
-
-class Globals {
-	Set(name, value) {
-		Globals[name] := value
-	}
-
-	Get(name, value_default="") {
-		result := Globals[name]
-		If (result == "") {
-			result := value_default
-		}
-		return result
-	}
 }
