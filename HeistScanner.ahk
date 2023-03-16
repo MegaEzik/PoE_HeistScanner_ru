@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230316.2
+﻿;HeistScannerLoader ver230316.3
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -38,9 +38,9 @@ FileLoader("HeistScanner\bin\tesseract\tessdata_best\rus.traineddata", "https://
 
 ;FileLoader("HeistScanner\resources\ahk\ItemDataConverterLib.ahk", "https://raw.githubusercontent.com/MegaEzik/LeagueOverlay_ru/master/resources/ahk/ItemDataConverterLib.ahk")
 
-FileLoader("HeistScanner\HeistScanner.ahk", "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner/HeistScanner.ahk")
+FileLoader("HeistScanner\HeistScanner.ahk", "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner/run_HeistScanner.ahk")
 
-Run *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\HeistScanner.ahk"
+Run *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\run_HeistScanner.ahk"
 
 ExitApp
 
@@ -63,7 +63,7 @@ update(){
 	RegExMatch(verScript, "HeistScannerLoader ver(.*)", curVer)
 	If (newVer1="") || (newVer1<=curVer1)
 		return
-	FileRemoveDir, %A_ScriptDir%\HeistScanner
+	FileRemoveDir, %A_ScriptDir%\HeistScanner, 1
 	FileMove, %FilePath%, %A_ScriptFullPath%, 1
 	Sleep 1000
 	Reload
