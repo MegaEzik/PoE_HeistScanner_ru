@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230316.1
+﻿;HeistScannerLoader ver230316.2
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -61,7 +61,7 @@ update(){
 	RegExMatch(verRelease, "HeistScannerLoader ver(.*)", newVer)
 	FileReadLine, verScript, %A_ScriptFullPath%, 1
 	RegExMatch(verScript, "HeistScannerLoader ver(.*)", curVer)
-	If (newVer1="") || (newVer<=curVer)
+	If (newVer1="") || (newVer1<=curVer1)
 		return
 	FileRemoveDir, %A_ScriptDir%\HeistScanner
 	FileMove, %FilePath%, %A_ScriptFullPath%, 1
