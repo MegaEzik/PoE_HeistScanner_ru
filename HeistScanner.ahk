@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230316.4
+﻿;HeistScannerLoader ver230316.5
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -49,7 +49,7 @@ FileLoader(Path, URL){
 		Return
 	SplitPath, Path,, DirPath
 	FileCreateDir, %DirPath%
-	RunWait curl -L -o "%Path%" "%URL%"
+	RunWait, curl -L -o "%Path%" "%URL%",, hide
 }
 
 update(){
