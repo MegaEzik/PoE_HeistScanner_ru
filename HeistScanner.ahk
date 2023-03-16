@@ -1,4 +1,5 @@
-﻿#NoEnv
+﻿;HeistScannerLoader ver230316.1
+#NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
 
@@ -13,6 +14,8 @@ If !FileExist(A_WinDir "\System32\curl.exe") {
 }
 
 SplashTextOn, 300, 20, Heist Scanner, Подготовка к использованию...
+
+update()
 
 If !FileExist("settings.ini") {
 	IniWrite, F2, settings.ini, hotkeys, hotkeyHeistScanner
@@ -35,6 +38,8 @@ FileLoader("HeistScanner\bin\tesseract\tessdata_best\rus.traineddata", "https://
 
 ;FileLoader("HeistScanner\resources\ahk\ItemDataConverterLib.ahk", "https://raw.githubusercontent.com/MegaEzik/LeagueOverlay_ru/master/resources/ahk/ItemDataConverterLib.ahk")
 
+FileLoader("HeistScanner\HeistScanner.ahk", "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner/HeistScanner.ahk")
+
 Run *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\HeistScanner.ahk"
 
 ExitApp
@@ -45,4 +50,21 @@ FileLoader(Path, URL){
 	SplitPath, Path,, DirPath
 	FileCreateDir, %DirPath%
 	RunWait curl -L -o "%Path%" "%URL%"
+}
+
+update(){
+	FilePath:=A_Temp "\HeistScannerLoader.ahk"
+	FileDelete, %FilePath%
+	Sleep 50
+	FileLoader(FilePath, "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner.ahk")
+	FileReadLine, verRelease, %FilePath%, 1
+	RegExMatch(verRelease, "HeistScannerLoader ver(.*)", newVer)
+	FileReadLine, verScript, %A_ScriptFullPath%, 1
+	RegExMatch(verScript, "HeistScannerLoader ver(.*)", curVer)
+	If (newVer1="") || (newVer<=curVer)
+		return
+	FileRemoveDir, %A_ScriptDir%\HeistScanner
+	FileMove, %FilePath%, %A_ScriptFullPath%, 1
+	Sleep 1000
+	Reload
 }
