@@ -41,11 +41,11 @@ useHeistScan(){
 		return
 	}
 	If RegExMatch(Name, "(.*)`r", res) {
-		url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22filters%22:{},%22name%22:%22" res1 "%22}}"
+		url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" res1 "%22}}"
 		run, "%url%"
 		return
 	}
-	url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22filters%22:{},%22type%22:%22" Name "%22}}"
+	url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22type%22:%22" Name "%22}}"
 	run, "%url%"
 	return
 }
