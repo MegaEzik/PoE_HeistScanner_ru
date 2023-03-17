@@ -10,7 +10,6 @@ If !A_IsAdmin {
 #include <Vis2>
 
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
-GroupAdd, WindowGrp, ahk_exe GeForceNOWStreamer.exe
 
 global configFile:="..\settings.ini", league, prjName:="Heist Scanner"
 
@@ -29,6 +28,8 @@ Return
 
 useHeistScan(){
 	Name:=OCR(,"rus")
+	If (Name="")
+		return
 	If RegExMatch(Name, "(Аномальный|Искривлённый|Фантомный): (.*)", res){
 		gemType:=1
 		If (res1="Искривлённый")
