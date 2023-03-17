@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230316.5
+﻿;HeistScannerLoader ver230317
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -54,6 +54,15 @@ FileLoader(Path, URL){
 
 update(){
 	FilePath:=A_Temp "\HeistScannerLoader.ahk"
+	
+	FormatTime, CurrentDate, %A_Now%, yyyyMMdd
+	FileGetTime, LoadDate, %FilePath%, M
+	FormatTime, LoadDate, %LoadDate%, yyyyMMdd
+	IfNotExist, %FilePath%
+		LoadDate:=0
+	If (LoadDate=CurrentDate)
+		return
+	
 	FileDelete, %FilePath%
 	Sleep 50
 	FileLoader(FilePath, "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner.ahk")
