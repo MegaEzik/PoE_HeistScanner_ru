@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230317.2
+﻿;HeistScannerLoader ver230320
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -53,7 +53,7 @@ FileLoader(Path, URL){
 }
 
 update(){
-	FilePath:=A_Temp "\HeistScannerLoader.ahk"
+	FilePath:=A_Temp "\MegaEzik\HeistScannerLoader.ahk"
 	
 	FormatTime, CurrentDate, %A_Now%, yyyyMMdd
 	FileGetTime, LoadDate, %FilePath%, M
