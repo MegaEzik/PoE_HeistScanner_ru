@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230321.1
+﻿;HeistScannerLoader ver230321.2
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -73,7 +73,6 @@ update(){
 		LoadDate:=0
 	If (LoadDate=CurrentDate)
 		return
-	
 	FileDelete, %FilePath%
 	Sleep 50
 	FileLoader(FilePath, "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner.ahk")
@@ -83,8 +82,10 @@ update(){
 	RegExMatch(verScript, "HeistScannerLoader ver(.*)", curVer)
 	If (newVer1="") || (newVer1<=curVer1)
 		return
+	RunWait *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\run_HeistScanner.ahk" /exit
+	Sleep 500
 	FileRemoveDir, %A_ScriptDir%\HeistScanner, 1
 	FileMove, %FilePath%, %A_ScriptFullPath%, 1
-	Sleep 1000
+	Sleep 500
 	Reload
 }

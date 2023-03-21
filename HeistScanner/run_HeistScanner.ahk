@@ -2,6 +2,9 @@
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
 
+If (A_Args[1]="/exit")
+	ExitApp
+
 If !A_IsAdmin {
 	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" %args%
 	ExitApp
