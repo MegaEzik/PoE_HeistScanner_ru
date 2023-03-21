@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230321
+﻿;HeistScannerLoader ver230321.1
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -13,7 +13,7 @@ If !FileExist(A_WinDir "\System32\curl.exe") {
 	ExitApp
 }
 
-SplashTextOn, 300, 20, Heist Scanner, Подготовка к использованию...
+SplashTextOn, 300, 20, Heist Scanner, Please wait...
 
 update()
 

@@ -11,14 +11,28 @@ If !A_IsAdmin {
 
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
 
-global configFile:="..\settings.ini", league, prjName:="Heist Scanner"
+global configFile:="..\settings.ini", prjName:="Heist Scanner", league, ninjaLeague
 
 IniRead, league, %configFile%, settings, league, %A_Space%
 IniRead, hotkeyHeistScanner, %configFile%, hotkeys, hotkeyHeistScanner, %A_Space%
 If (hotkeyHeistScanner!="")
 	Hotkey, % hotkeyHeistScanner, useHeistScan, On
+	
+setNinjaLeague()
 
-Menu, Tray, Tip, %prjName%
+Menu, Tray, Tip, %prjName% - %league%(%ninjaLeague%)
+
+uxtheme:=DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
+SetPreferredAppMode:=DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")
+FlushMenuThemes:=DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 136, "ptr")
+DllCall(SetPreferredAppMode, "int", 1)
+DllCall(FlushMenuThemes)
+
+Menu, Tray, NoStandard
+Menu, Tray, Add, League, switchLeague
+Menu, Tray, Default, League
+Menu, Tray, Add
+Menu, Tray, Standard
 
 Return
 
@@ -32,15 +46,15 @@ useHeistScan(){
 		return
 	If RegExMatch(Name, "[A-Za-z]+") && !RegExMatch(Name, "[А-Яа-яЁё]+") {
 		If RegExMatch(Name, "i)(Anomalous|Divergent|Phantasmal)") {
-			run, https://poe.ninja/challenge/skill-gems?name=%Name%&corrupted=No
+			run, https://poe.ninja/%ninjaLeague%/skill-gems?name=%Name%&corrupted=No
 			return
 		}
 		If RegExMatch(Name, "i)Delirium Orb"){
-			run, https://poe.ninja/challenge/delirium-orbs?name=%Name%
+			run, https://poe.ninja/%ninjaLeague%/delirium-orbs?name=%Name%
 			return
 		}
 		If RegExMatch(Name, "i)(Orb|Lens)"){
-			run, https://poe.ninja/challenge/currency?name=%Name%
+			run, https://poe.ninja/%ninjaLeague%/currency?name=%Name%
 			return
 		}
 		return
@@ -63,6 +77,45 @@ useHeistScan(){
 		}
 		url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22type%22:%22" Name "%22}}"
 		run, "%url%"
+		return
+	}
+}
+
+switchLeague() {
+	RunWait, curl -L -o "leagues.json" "http://api.pathofexile.com/leagues?type=main",, hide
+
+	FileRead, html, leagues.json
+	html:=StrReplace(html, "},{", "},`n{")
+	
+	Menu, LeaguesMenu, Add
+	Menu, LeaguesMenu, DeleteAll
+	
+	htmlSplit:=StrSplit(html, "`n")
+	For k, val in htmlSplit {
+		If !RegExMatch(htmlSplit[k], "(SSF|Ruthless)") && RegExMatch(htmlSplit[k], "id"":""(.*)"",""realm", res)
+			Menu, LeaguesMenu, Add, %res1%, setLeague
+	}
+
+	Menu, LeaguesMenu, Show
+}
+
+setLeague(Name){
+	IniWrite, %Name%, %configFile%, settings, league
+	Reload
+}
+
+setNinjaLeague() {
+	ninjaLeague:="challenge"
+	If (league="Standard") {
+		ninjaLeague:="standard"
+		return
+	}
+	If (league="Hardcore") {
+		ninjaLeague:="hardcore"
+		return
+	}
+	If RegExMatch(league, "(Hardcore|HC)")	{
+		ninjaLeague:="challengehc"
 		return
 	}
 }
