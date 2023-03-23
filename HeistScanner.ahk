@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230323.1
+﻿;HeistScannerLoader ver230323.2
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -38,7 +38,7 @@ FileLoader("HeistScanner\bin\tesseract\tessdata_best\rus.traineddata", "https://
 
 ;FileLoader("HeistScanner\resources\ahk\ItemDataConverterLib.ahk", "https://raw.githubusercontent.com/MegaEzik/LeagueOverlay_ru/master/resources/ahk/ItemDataConverterLib.ahk")
 
-FileLoader("HeistScanner\run_HeistScanner.ahk", "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner/run_HeistScanner.ahk")
+FileLoader("HeistScanner\HeistScannerMainScript.ahk", "https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner/HeistScannerMainScript.ahk")
 
 patchVis2()
 
