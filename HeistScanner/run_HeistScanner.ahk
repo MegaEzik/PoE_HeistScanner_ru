@@ -14,7 +14,11 @@ If !A_IsAdmin {
 
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
 
-global configFile:="..\settings.ini", prjName:="Heist Scanner", league, ninjaLeague
+global configFile:="..\settings.ini", prjName:="HeistScanner", verScript, league, ninjaLeague
+
+FileReadLine, verLoader, ..\HeistScanner.ahk, 1
+If RegExMatch(verLoader, "HeistScannerLoader ver(.*)", findVer)
+	verScript:=findVer1
 
 IniRead, league, %configFile%, settings, league, %A_Space%
 IniRead, hotkeyHeistScanner, %configFile%, hotkeys, hotkeyHeistScanner, %A_Space%
@@ -23,7 +27,7 @@ If (hotkeyHeistScanner!="")
 	
 setNinjaLeague()
 
-Menu, Tray, Tip, %prjName% - %league%(%ninjaLeague%)
+Menu, Tray, Tip, %prjName% v%verScript%`n%league% (%ninjaLeague%)
 
 uxtheme:=DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
 SetPreferredAppMode:=DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")

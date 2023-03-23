@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230321.2
+﻿;HeistScannerLoader ver230323
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -9,11 +9,11 @@ If (!A_IsAdmin) {
 }
 
 If !FileExist(A_WinDir "\System32\curl.exe") {
-	MsgBox, 0x1010,, Требуется OS Windows 10 1809 или выше!
+	MsgBox, 0x1010,, Requires Windows 10 1809 or newer!
 	ExitApp
 }
 
-SplashTextOn, 300, 20, Heist Scanner, Please wait...
+SplashTextOn, 300, 20, HeistScanner, Please wait...
 
 update()
 
