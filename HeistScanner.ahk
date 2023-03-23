@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230323.2
+﻿;HeistScannerLoader ver230323.3
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -82,7 +82,7 @@ update(){
 	RegExMatch(verScript, "HeistScannerLoader ver(.*)", curVer)
 	If (newVer1="") || (newVer1<=curVer1)
 		return
-	RunWait *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\run_HeistScanner.ahk" /exit
+	RunWait *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\HeistScannerMainScript.ahk"
 	Sleep 500
 	FileRemoveDir, %A_ScriptDir%\HeistScanner, 1
 	FileMove, %FilePath%, %A_ScriptFullPath%, 1
