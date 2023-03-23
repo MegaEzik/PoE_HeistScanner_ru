@@ -2,7 +2,7 @@
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
 
-If (A_Args[1]="/exit")
+If (A_Args[1]!="/launch") || (A_Args[1]="/exit")
 	ExitApp
 
 If !A_IsAdmin {

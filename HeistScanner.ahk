@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230323
+﻿;HeistScannerLoader ver230323.1
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
@@ -42,7 +42,7 @@ FileLoader("HeistScanner\run_HeistScanner.ahk", "https://raw.githubusercontent.c
 
 patchVis2()
 
-Run *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\run_HeistScanner.ahk"
+Run *RunAs "%A_AhkPath%" "%A_ScriptDir%\HeistScanner\HeistScannerMainScript.ahk" /launch
 
 ExitApp
 
