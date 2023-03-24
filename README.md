@@ -12,4 +12,4 @@ HeistScanner powered by Vis2
 
 # Install
 1. Install <a href="https://www.autohotkey.com/download/">AutoHootkey v1.1</a>
-2. Download and run <a href="https://raw.githubusercontent.com/MegaEzik/PoE_HeistScanner_ru/main/HeistScanner.ahk">HeistScanner.ahk</a>
+2. <a href="https://github.com/MegaEzik/PoE_HeistScanner_ru/archive/refs/heads/main.zip">Download</a> and run 'HeistScanner.ahk'
