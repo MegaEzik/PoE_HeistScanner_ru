@@ -5,10 +5,8 @@ SetWorkingDir %A_ScriptDir%
 If (A_Args[1]!="/launch") || (A_Args[1]="/exit")
 	ExitApp
 
-If !A_IsAdmin {
-	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" %args%
-	ExitApp
-}
+If !A_IsAdmin
+	reStart()
 
 #include <Vis2Patched>
 
@@ -36,10 +34,15 @@ DllCall(SetPreferredAppMode, "int", 1)
 DllCall(FlushMenuThemes)
 
 Menu, Tray, NoStandard
-Menu, Tray, Add, League, switchLeague
-Menu, Tray, Default, League
+Menu, Tray, Add, Open GitHub, openGitHub
 Menu, Tray, Add
-Menu, Tray, Standard
+Menu, Tray, Add, Edit 'settings.ini', editConfig
+Menu, Tray, Add, Change League, switchLeague
+Menu, Tray, Add
+Menu, Tray, Add, Reload, reStart
+Menu, Tray, Add, Exit, closeScript
+Menu, Tray, Default, Edit 'settings.ini'
+
 
 Return
 
@@ -108,7 +111,7 @@ switchLeague() {
 
 setLeague(Name){
 	IniWrite, %Name%, %configFile%, settings, league
-	Reload
+	reStart()
 }
 
 setNinjaLeague() {
@@ -125,4 +128,22 @@ setNinjaLeague() {
 		ninjaLeague:="challengehc"
 		return
 	}
+}
+
+openGitHub() {
+	run, https://github.com/MegaEzik/PoE_HeistScanner_ru
+}
+
+editConfig() {
+	RunWait, notepad.exe "%configFile%"
+	ReStart()
+}
+
+closeScript() {
+	ExitApp
+}
+
+reStart() {
+	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" /launch
+	ExitApp
 }
