@@ -59,6 +59,18 @@ useHeistScan(){
 			run, https://poe.ninja/%ninjaLeague%/skill-gems?name=%Name%&corrupted=No
 			return
 		}
+		If RegExMatch(Name, "i)Fossil"){
+			run, https://poe.ninja/%ninjaLeague%/fossils?name=%Name%
+			return
+		}
+		If RegExMatch(Name, "i)Incubator"){
+			run, https://poe.ninja/%ninjaLeague%/incubators?name=%Name%
+			return
+		}
+		If RegExMatch(Name, "i)Scarab"){
+			run, https://poe.ninja/%ninjaLeague%/scarabs?name=%Name%
+			return
+		}
 		If RegExMatch(Name, "i)Delirium Orb"){
 			run, https://poe.ninja/%ninjaLeague%/delirium-orbs?name=%Name%
 			return
