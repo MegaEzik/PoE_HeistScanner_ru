@@ -41,7 +41,7 @@ Menu, Tray, Add, Change League, switchLeague
 Menu, Tray, Add
 Menu, Tray, Add, Reload, reStart
 Menu, Tray, Add, Exit, closeScript
-Menu, Tray, Default, Edit 'settings.ini'
+Menu, Tray, Default, Change League
 
 
 Return
