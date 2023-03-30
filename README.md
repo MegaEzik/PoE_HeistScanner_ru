@@ -1,5 +1,5 @@
 # PoE_HeistScanner
-HeistScanner powered by Vis2
+HeistScanner powered by <a href="https://github.com/iseahound/Vis2">Vis2</a>
 
 <a href="https://youtu.be/NDOQjhikqXU?t=62">Demonstration(RU Client)</a>
 
