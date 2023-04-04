@@ -12,7 +12,7 @@ If !A_IsAdmin
 
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
 
-global configFile:="..\settings.ini", prjName:="HeistScanner", verScript, league, ninjaLeague
+global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", verScript, league, ninjaLeague
 
 FileReadLine, verLoader, ..\HeistScanner.ahk, 1
 If RegExMatch(verLoader, "HeistScannerLoader ver(.*)", findVer)
