@@ -104,7 +104,8 @@ useHeistScan(){
 }
 
 switchLeague() {
-	RunWait, curl -L -o "leagues.json" "http://api.pathofexile.com/leagues?type=main",, hide
+	;RunWait, curl -L -o "leagues.json" "http://api.pathofexile.com/leagues?type=main",, hide
+	UrlDownloadToFile, http://api.pathofexile.com/leagues?type=main, leagues.json
 
 	FileRead, html, leagues.json
 	html:=StrReplace(html, "},{", "},`n{")

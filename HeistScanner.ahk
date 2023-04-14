@@ -1,15 +1,10 @@
-﻿;HeistScannerLoader ver230404
+﻿;HeistScannerLoader ver230414
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
 
 If (!A_IsAdmin) {
 	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%"
-	ExitApp
-}
-
-If !FileExist(A_WinDir "\System32\curl.exe") {
-	MsgBox, 0x1010,, Requires Windows 10 1809 or newer!
 	ExitApp
 }
 
@@ -51,7 +46,8 @@ FileLoader(Path, URL){
 		Return
 	SplitPath, Path,, DirPath
 	FileCreateDir, %DirPath%
-	RunWait, curl -L -o "%Path%" "%URL%",, hide
+	UrlDownloadToFile, %URL%, %Path%
+	;RunWait, curl -L -o "%Path%" "%URL%",, hide
 }
 
 patchVis2(){
