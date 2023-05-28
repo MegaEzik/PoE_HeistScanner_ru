@@ -20,8 +20,9 @@ If RegExMatch(verLoader, "HeistScannerLoader ver(.*)", findVer)
 
 IniRead, league, %configFile%, settings, league, %A_Space%
 IniRead, hotkeyHeistScanner, %configFile%, hotkeys, hotkeyHeistScanner, %A_Space%
-If (hotkeyHeistScanner!="")
-	Hotkey, % hotkeyHeistScanner, useHeistScan, On
+If (hotkeyHeistScanner="")
+	ExitApp
+Hotkey, % hotkeyHeistScanner, useHeistScan, On
 	
 setNinjaLeague()
 
