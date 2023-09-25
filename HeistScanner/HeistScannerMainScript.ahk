@@ -2,17 +2,20 @@
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
 
+#include <Vis2Patched>
+
+global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", LangMode:="rus+eng", verScript, league, ninjaLeague
+
 If (A_Args[1]!="/launch") || (A_Args[1]="/exit")
 	ExitApp
+
+If RegExMatch(A_Args[2], "i)/langmode=(.*)", res) && (res1!="")
+	LangMode:=res1
 
 If !A_IsAdmin
 	reStart()
 
-#include <Vis2Patched>
-
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
-
-global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", verScript, league, ninjaLeague
 
 FileReadLine, verLoader, ..\HeistScanner.ahk, 1
 If RegExMatch(verLoader, "HeistScannerLoader ver(.*)", findVer)
@@ -38,12 +41,16 @@ Menu, Tray, NoStandard
 Menu, Tray, Add, Open GitHub, openGitHub
 Menu, Tray, Add
 Menu, Tray, Add, Edit 'settings.ini', editConfig
+Menu, Tray, Add, Languages, restartWithLanguage
 Menu, Tray, Add, Change League, switchLeague
 Menu, Tray, Add
 Menu, Tray, Add, Reload, reStart
 Menu, Tray, Add, Exit, closeScript
 Menu, Tray, Default, Change League
 
+
+If (LangMode!="rus+eng")
+	TrayTip, %prjName%, Languages=%LangMode%
 
 Return
 
@@ -52,7 +59,7 @@ Return
 #IfWinActive ahk_group WindowGrp
 
 useHeistScan(){
-	Name:=OCR(,"eng+rus")
+	Name:=OCR(,LangMode)
 	If (Name="")
 		return
 	If RegExMatch(Name, "[A-Za-z]+") && !RegExMatch(Name, "[А-Яа-яЁё]+") {
@@ -93,7 +100,7 @@ useHeistScan(){
 			run, "%url%"
 			return
 		}
-		If RegExMatch(Name, "(.*)`r", res) {
+		If RegExMatch(Name, "(Копия .*)", res) || RegExMatch(Name, "(.*)`r", res) {
 			url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" res1 "%22}}"
 			run, "%url%"
 			return
@@ -128,6 +135,11 @@ setLeague(Name){
 	reStart()
 }
 
+restartWithLanguage(){
+	InputBox, LangMode, Restart With Language,,, 300, 100,,,,,%LangMode%
+	reStart()
+}
+
 setNinjaLeague() {
 	ninjaLeague:="challenge"
 	If (league="Standard") {
@@ -158,6 +170,6 @@ closeScript() {
 }
 
 reStart() {
-	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" /launch
+	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" /launch /langmode=%LangMode%
 	ExitApp
 }
