@@ -67,6 +67,11 @@ useHeistScan(){
 			run, https://poe.ninja/%ninjaLeague%/skill-gems?name=%Name%&corrupted=No
 			return
 		}
+		If RegExMatch(Name, "i)(Replica .*)", res) || RegExMatch(Name, "(.*)`r", res) {
+			url:="https://www.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" StrTitle(res1) "%22}}"
+			run, "%url%"
+			return
+		}
 		If RegExMatch(Name, "i)Fossil"){
 			run, https://poe.ninja/%ninjaLeague%/fossils?name=%Name%
 			return
@@ -83,7 +88,7 @@ useHeistScan(){
 			run, https://poe.ninja/%ninjaLeague%/delirium-orbs?name=%Name%
 			return
 		}
-		If RegExMatch(Name, "i)(Orb|Lens)"){
+		If RegExMatch(Name, "i)(Orb|Shard|Stacked Deck)") {
 			run, https://poe.ninja/%ninjaLeague%/currency?name=%Name%
 			return
 		}
@@ -163,6 +168,11 @@ openGitHub() {
 editConfig() {
 	RunWait, notepad.exe "%configFile%"
 	ReStart()
+}
+
+StrTitle(SrcText) {
+	StringUpper, Result, SrcText, T
+	Return Result
 }
 
 closeScript() {

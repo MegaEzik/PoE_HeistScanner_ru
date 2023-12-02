@@ -1,4 +1,4 @@
-﻿;HeistScannerLoader ver230925
+﻿;HeistScannerLoader ver230925.1
 #NoEnv
 #SingleInstance Force
 SetWorkingDir %A_ScriptDir%
