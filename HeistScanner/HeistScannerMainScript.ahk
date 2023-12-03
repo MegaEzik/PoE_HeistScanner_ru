@@ -4,7 +4,7 @@ SetWorkingDir %A_ScriptDir%
 
 #include <Vis2Patched>
 
-global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", LangMode:="rus+eng", verScript, league, ninjaLeague
+global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", LangMode:="eng+rus", verScript, league, ninjaLeague
 
 If (A_Args[1]!="/launch") || (A_Args[1]="/exit")
 	ExitApp
@@ -49,7 +49,7 @@ Menu, Tray, Add, Exit, closeScript
 Menu, Tray, Default, Change League
 
 
-If (LangMode!="rus+eng")
+If (LangMode!="eng+rus")
 	TrayTip, %prjName%, Languages=%LangMode%
 
 Return
