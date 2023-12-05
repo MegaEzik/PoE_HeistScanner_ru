@@ -68,7 +68,7 @@ useHeistScan(){
 			return
 		}
 		If RegExMatch(Name, "i)(Replica .*)", res) || RegExMatch(Name, "(.*)`r", res) {
-			url:="https://www.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" StrTitle(res1) "%22}}"
+			url:="https://www.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" Trim(StrTitle(res1)) "%22}}"
 			run, "%url%"
 			return
 		}
