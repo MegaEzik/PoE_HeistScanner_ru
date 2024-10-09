@@ -4,9 +4,11 @@ SetWorkingDir %A_ScriptDir%
 
 #include <Vis2Patched>
 
-global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", LangMode:="eng+rus", verScript, league, ninjaLeague
-
-If (A_Args[1]!="/launch") || (A_Args[1]="/exit")
+global configFile:="..\HeistScanner.ini", prjName:="HeistScanner by MegaEzik", LangMode:="eng+rus", verScript, league, ninjaLeague
+If FileExist("..\..\settings.ini")
+	configFile:="..\..\settings.ini"
+	
+If (ScriptName="tmpLoader.ahk" || A_Args[1]!="/launch") || (A_Args[1]="/exit")
 	ExitApp
 
 If RegExMatch(A_Args[2], "i)/langmode=(.*)", res) && (res1!="")
@@ -15,11 +17,10 @@ If RegExMatch(A_Args[2], "i)/langmode=(.*)", res) && (res1!="")
 If !A_IsAdmin
 	reStart()
 
+GroupAdd, WindowGrp, ahk_exe GeForceNOW.exe
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
 
-FileReadLine, verLoader, ..\HeistScanner.ahk, 1
-If RegExMatch(verLoader, "HeistScannerLoader ver(.*)", findVer)
-	verScript:=findVer1
+IniRead, verScript, ..\HeistScanner.ahk, info, version, 230313
 
 IniRead, league, %configFile%, settings, league, %A_Space%
 IniRead, hotkeyHeistScanner, %configFile%, hotkeys, hotkeyHeistScanner, %A_Space%
@@ -63,10 +64,12 @@ useHeistScan(){
 	If (Name="")
 		return
 	If RegExMatch(Name, "[A-Za-z]+") && !RegExMatch(Name, "[А-Яа-яЁё]+") {
+		/*
 		If RegExMatch(Name, "i)(Anomalous|Divergent|Phantasmal)") {
 			run, https://poe.ninja/%ninjaLeague%/skill-gems?name=%Name%&corrupted=No
 			return
 		}
+		*/
 		If RegExMatch(Name, "i)(Replica .*)", res) || RegExMatch(Name, "(.*)`r", res) {
 			url:="https://www.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" Trim(StrTitle(res1)) "%22}}"
 			run, "%url%"
@@ -95,6 +98,7 @@ useHeistScan(){
 		return
 	}
 	If RegExMatch(Name, "[А-Яа-яЁё]+") {
+		/*
 		If RegExMatch(Name, "(Аномальный|Искривлённый|Фантомный): (.*)", res){
 			gemType:=1
 			If (res1="Искривлённый")
@@ -105,6 +109,7 @@ useHeistScan(){
 			run, "%url%"
 			return
 		}
+		*/
 		If RegExMatch(Name, "(Копия .*)", res) || RegExMatch(Name, "(.*)`r", res) {
 			url:="https://ru.pathofexile.com/trade/search/" league "?q={%22query%22:{%22name%22:%22" res1 "%22}}"
 			run, "%url%"
@@ -118,9 +123,9 @@ useHeistScan(){
 
 switchLeague() {
 	;RunWait, curl -L -o "leagues.json" "http://api.pathofexile.com/leagues?type=main",, hide
-	UrlDownloadToFile, http://api.pathofexile.com/leagues?type=main, leagues.json
+	UrlDownloadToFile, http://api.pathofexile.com/leagues?type=main, tmp\leagues.json
 
-	FileRead, html, leagues.json
+	FileRead, html, tmp\leagues.json
 	html:=StrReplace(html, "},{", "},`n{")
 	
 	Menu, LeaguesMenu, Add
