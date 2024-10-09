@@ -4,7 +4,7 @@ SetWorkingDir %A_ScriptDir%
 
 #include <Vis2Patched>
 
-global configFile:="..\HeistScanner.ini", prjName:="HeistScanner by MegaEzik", LangMode:="eng+rus", verScript, league, ninjaLeague
+global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", LangMode:="eng+rus", verScript, league, ninjaLeague
 If FileExist("..\..\settings.ini")
 	configFile:="..\..\settings.ini"
 	

@@ -1,6 +1,6 @@
 ﻿/*HeistScannerLoader ver230925.2
 [info]
-version=241010
+version=241010.1
 */
 #NoEnv
 #SingleInstance Force
@@ -15,9 +15,9 @@ SplashTextOn, 200, 20, HeistScannerLoader, Please wait...
 
 update()
 
-If !FileExist("HeistScanner.ini") {
-	IniWrite, F2, HeistScanner.ini, hotkeys, hotkeyHeistScanner
-	IniWrite, Standard, HeistScanner.ini, settings, league
+If !FileExist("settings.ini.ini") {
+	IniWrite, F2, settings.ini.ini, hotkeys, hotkeyHeistScanner
+	IniWrite, Standard, settings.ini.ini, settings, league
 }
 
 FileLoader("HeistScanner\bin\leptonica_util\leptonica_util.exe", "https://raw.githubusercontent.com/iseahound/Vis2/master/bin/leptonica_util/leptonica_util.exe")
