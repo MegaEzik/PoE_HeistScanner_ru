@@ -4,15 +4,17 @@ SetWorkingDir %A_ScriptDir%
 
 #include <Vis2Patched>
 
-global configFile:="..\settings.ini", prjName:="HeistScanner by MegaEzik", LangMode:="eng+rus", verScript, league, ninjaLeague
+global configFile:="..\settings.ini", mainConfig:="..\settings.ini", prjName:="HeistScanner by MegaEzik", langMode:="eng+rus", verScript, labMode, league, ninjaLeague
 If FileExist("..\..\settings.ini")
 	configFile:="..\..\settings.ini"
 	
 If (ScriptName="tmpLoader.ahk" || A_Args[1]!="/launch") || (A_Args[1]="/exit")
 	ExitApp
 
+/*
 If RegExMatch(A_Args[2], "i)/langmode=(.*)", res) && (res1!="")
 	LangMode:=res1
+*/
 
 If !A_IsAdmin
 	reStart()
@@ -21,6 +23,8 @@ GroupAdd, WindowGrp, ahk_exe GeForceNOW.exe
 GroupAdd, WindowGrp, Path of Exile ahk_class POEWindowClass
 
 IniRead, verScript, ..\HeistScanner.ahk, info, version, 230313
+IniRead, labMode, %mainConfig%, settings, labMode, 0
+IniRead, langMode, %mainConfig%, settings, langMode, eng+rus
 
 IniRead, league, %configFile%, settings, league, %A_Space%
 IniRead, hotkeyHeistScanner, %configFile%, hotkeys, hotkeyHeistScanner, %A_Space%
@@ -42,16 +46,21 @@ Menu, Tray, NoStandard
 Menu, Tray, Add, Open GitHub, openGitHub
 Menu, Tray, Add
 Menu, Tray, Add, Edit 'settings.ini', editConfig
+Menu, Tray, Add, League, switchLeague
+Menu, Tray, Add, Labyrinth Mode, changeLabMode
 Menu, Tray, Add, Languages, restartWithLanguage
-Menu, Tray, Add, Change League, switchLeague
+If labMode
+	Menu, Tray, Check, Labyrinth Mode
 Menu, Tray, Add
 Menu, Tray, Add, Reload, reStart
 Menu, Tray, Add, Exit, closeScript
-Menu, Tray, Default, Change League
+Menu, Tray, Default, Labyrinth Mode
 
 
-If (LangMode!="eng+rus")
-	TrayTip, %prjName%, Languages=%LangMode%
+If (langMode!="eng+rus")
+	TrayTip, %prjName%, Languages=%langMode%
+	
+pToken:=Gdip_Startup()
 
 Return
 
@@ -59,8 +68,26 @@ Return
 
 #IfWinActive ahk_group WindowGrp
 
+showScreenUI() {
+	FileDelete, %A_ScriptDir%\tmp\ScreenShot.bmp
+	Sleep 25
+	Send, {Alt Down}
+	Gdip_SaveBitmapToFile(Gdip_BitmapFromScreen(1), A_ScriptDir "\tmp\ScreenShot.bmp")
+	Send, {Alt Up}
+	Sleep 25
+	Gui, ScreenUI:Destroy
+	Gui, ScreenUI:Add, Picture, x0 y0 w%A_ScreenWidth% h%A_ScreenHeight%, %A_ScriptDir%\tmp\ScreenShot.bmp
+	Gui, ScreenUI:-Caption -Border +AlwaysOnTop
+	Gui, ScreenUI:Show, x0 y0 w%A_ScreenWidth% h%A_ScreenHeight%, ScreenUI
+}
+
 useHeistScan(){
-	Name:=OCR(,LangMode)
+	;Sleep 100
+	If labMode
+		showScreenUI()
+	Name:=OCR(,langMode)
+	
+	Gui, ScreenUI:Destroy
 	If (Name="")
 		return
 	If RegExMatch(Name, "[A-Za-z]+") && !RegExMatch(Name, "[А-Яа-яЁё]+") {
@@ -95,6 +122,7 @@ useHeistScan(){
 			run, https://poe.ninja/%ninjaLeague%/currency?name=%Name%
 			return
 		}
+		run, https://poe.ninja/%ninjaLeague%/skill-gems?name=%Name%&corrupted=No
 		return
 	}
 	If RegExMatch(Name, "[А-Яа-яЁё]+") {
@@ -121,9 +149,18 @@ useHeistScan(){
 	}
 }
 
+changeLabMode(){
+	If labMode {
+		IniWrite, 0, %mainConfig%, settings, labMode
+	} Else {
+		IniWrite, 1, %mainConfig%, settings, labMode
+	}
+	reStart()
+}
+
 switchLeague() {
 	;RunWait, curl -L -o "leagues.json" "http://api.pathofexile.com/leagues?type=main",, hide
-	UrlDownloadToFile, http://api.pathofexile.com/leagues?type=main, tmp\leagues.json
+	UrlDownloadToFile, https://api.pathofexile.com/leagues?realm=pc, tmp\leagues.json
 
 	FileRead, html, tmp\leagues.json
 	html:=StrReplace(html, "},{", "},`n{")
@@ -132,10 +169,10 @@ switchLeague() {
 	Menu, LeaguesMenu, DeleteAll
 	
 	htmlSplit:=StrSplit(html, "`n")
-	For k, val in htmlSplit {
-		If !RegExMatch(htmlSplit[k], "(SSF|Ruthless)") && RegExMatch(htmlSplit[k], "id"":""(.*)"",""realm", res)
-			Menu, LeaguesMenu, Add, %res1%, setLeague
-	}
+	For k, val in htmlSplit
+		If RegExMatch(htmlSplit[k], "U)id"":""(.*)""", res) && RegExMatch(htmlSplit[k], """realm"":""pc""")
+			If !RegExMatch(res1, "i)(SSF|Solo Self-Found|Ruthless)")
+				Menu, LeaguesMenu, Add, %res1%, setLeague
 
 	Menu, LeaguesMenu, Show
 }
@@ -146,7 +183,10 @@ setLeague(Name){
 }
 
 restartWithLanguage(){
-	InputBox, LangMode, Restart With Language,,, 300, 100,,,,,%LangMode%
+	InputBox, langMode, Restart With Language,,, 300, 100,,,,,%langMode%
+	If (langMode="")
+		langMode:="eng+rus"
+	IniWrite, %langMode%, %mainConfig%, settings, langMode
 	reStart()
 }
 
@@ -185,6 +225,7 @@ closeScript() {
 }
 
 reStart() {
-	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" /launch /langmode=%LangMode%
+	;Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" /launch /langmode=%langMode%
+	Run *RunAs "%A_AhkPath%" "%A_ScriptFullPath%" /launch
 	ExitApp
 }
