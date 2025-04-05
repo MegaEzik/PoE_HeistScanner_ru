@@ -1,6 +1,6 @@
 ﻿/*HeistScannerLoader ver230925.2
 [info]
-version=250404.1
+version=250404.2
 */
 #NoEnv
 #SingleInstance Force

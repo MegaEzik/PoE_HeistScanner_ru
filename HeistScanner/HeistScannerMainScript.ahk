@@ -70,11 +70,13 @@ Return
 
 showScreenUI() {
 	FileDelete, %A_ScriptDir%\tmp\ScreenShot.bmp
-	Sleep 25
-	Send, {Alt Down}
+	BlockInput On
+	SendInput, {Alt Down}
+	Sleep 100
 	Gdip_SaveBitmapToFile(Gdip_BitmapFromScreen(1), A_ScriptDir "\tmp\ScreenShot.bmp")
-	Send, {Alt Up}
-	Sleep 25
+	Sleep 100
+	SendInput, {Alt Up}
+	BlockInput Off
 	Gui, ScreenUI:Destroy
 	Gui, ScreenUI:Add, Picture, x0 y0 w%A_ScreenWidth% h%A_ScreenHeight%, %A_ScriptDir%\tmp\ScreenShot.bmp
 	Gui, ScreenUI:-Caption -Border +AlwaysOnTop
